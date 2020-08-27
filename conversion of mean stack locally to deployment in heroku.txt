@@ -1,0 +1,31 @@
+1. change baseurl from http://localhost:3000/tasks to tasks (E:\college projects\deploy todolist into heroku\Todolist\angular\todolist\src\app\service\taskservice.service) because angular service will be run from nodejs server ( all are run on same server i.e angular will loaded as static in nodejs server)
+
+2. type ng build command from angular folder and dist file will be build. you can either set dist file to be build in nodejs folder( it can be set by accesing angular.json file in angular) or copy paste dist in nodejs folder
+
+3.next access nodejs folder and type 
+
+*var path = require('path');     // path.join is used to jon file path with dist fro loading static pages 
+
+*app.get('/',(req,res)=>{         // set all get reuest to index.html in dist
+    res.sendFile(path.join(__dirname,'dist/todolist/index.html'))
+});
+
+*app.use(express.static(path.join(__dirname,'dist/todolist')));   // to load static pages from
+
+* set var port = process.env.PORT||3000; because heroku choose its own port
+* set app.use(cors()); // so it can be accessed from different domain
+
+4. in heroku nodejs starts with npm start command so we have to set "start": "nodemon index.js" ( under scripts ) in package.json in nodejs
+
+5. set database to mongoose.connect("mongodb+srv://johnes:johnes@cluster0.wh92o.mongodb.net/johnesbase?retryWrites=true&w=majority"
+
+in db.js in nodejs project with the help of mlab (online mongodatabase)
+
+6. in nodejs directory type cmd
+
+*git init 
+*heroku create
+*git add .// adds everything to local repositery
+*git commit -am "first commit deploying app to heroku"
+*git push heroku master // pushes all file to heroku
+*heroku open // to open app
